@@ -1,0 +1,167 @@
+---
+import { HOW_IT_WORKS_STEPS } from '@/data/how-it-works';
+import Button from '@/components/ui/Button.astro';
+import { ROUTES } from '@/data/site';
+
+interface Props {
+  variant?: 'light' | 'dark';
+  /** Visible section heading. Omit it to render a visually-hidden one. */
+  heading?: string;
+  showCta?: boolean;
+}
+
+const { variant = 'light', heading, showCta = false } = Astro.props;
+const headingId = 'how-it-works-title';
+---
+
+<section class:list={['how', `how--${variant}`]} aria-labelledby={headingId}>
+  <div class="how__inner container">
+    <h2 id={headingId} class:list={['how__heading', { 'visually-hidden': !heading }]}>
+      {heading ?? 'How it works'}
+    </h2>
+
+    <div class="how__track" aria-hidden="true">
+      {HOW_IT_WORKS_STEPS.map(() => (
+        <span class="how__dot" />
+      ))}
+    </div>
+
+    <ol class="how__list" role="list">
+      {HOW_IT_WORKS_STEPS.map((step, index) => (
+        <li class="how__step" data-reveal="fade-up" data-reveal-delay={index * 150}>
+          <span class="how__number" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <h3 class="how__title">{step.title}</h3>
+          <p class="how__text">{step.description}</p>
+        </li>
+      ))}
+    </ol>
+
+    {showCta && (
+      <div class="how__cta">
+        <Button href={ROUTES.createPlan}>Create your plan</Button>
+      </div>
+    )}
+  </div>
+</section>
+
+<style lang="scss">
+  .how--dark .how__inner {
+    padding: 5rem 1.5rem;
+    color: var(--color-cream);
+    background-color: var(--color-ink-deep);
+    border-radius: var(--radius-lg);
+
+    @include mq(md) {
+      padding: 6.25rem 2.5rem;
+    }
+
+    @include mq(lg) {
+      padding: 6.25rem 5.3125rem;
+    }
+  }
+
+  .how__heading {
+    @include heading('h4');
+
+    margin-bottom: 5rem;
+    color: var(--color-muted);
+    text-align: center;
+
+    @include mq(md) {
+      margin-bottom: 2.625rem;
+      text-align: left;
+    }
+  }
+
+  .how__track {
+    display: none;
+    justify-content: space-between;
+    max-width: calc(100% - 25%);
+    margin-bottom: 4rem;
+    background: linear-gradient(var(--color-accent), var(--color-accent)) center / 100% 2px
+      no-repeat;
+
+    @include mq(md) {
+      display: flex;
+    }
+  }
+
+  .how__dot {
+    width: 1.9375rem;
+    height: 1.9375rem;
+    background-color: var(--color-cream);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+
+    .how--dark & {
+      background-color: var(--color-ink-deep);
+    }
+  }
+
+  .how__list {
+    display: grid;
+    gap: 3.5rem;
+    text-align: center;
+
+    @include mq(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.625rem;
+      text-align: left;
+    }
+
+    @include mq(lg) {
+      gap: 5.9375rem;
+    }
+  }
+
+  .how__step {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 22rem;
+    margin-inline: auto;
+
+    @include mq(md) {
+      gap: 2.375rem;
+      margin-inline: 0;
+    }
+  }
+
+  .how__number {
+    @include font-display;
+
+    font-size: var(--fs-numeral);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .how__title {
+    @include heading('h3');
+
+    @include mq(md) {
+      min-height: 2lh;
+    }
+  }
+
+  .how__text {
+    font-size: var(--fs-lead);
+    opacity: 0.8;
+
+    .how--light & {
+      color: var(--color-ink);
+      opacity: 1;
+    }
+  }
+
+  .how__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+
+    @include mq(md) {
+      justify-content: flex-start;
+      margin-top: 2.75rem;
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import { PLAN_STEPS } from './model';
+import CheckoutDialog from './ui/CheckoutDialog.astro';
+import OrderSummary from './ui/OrderSummary.astro';
+import PlanQuestion from './ui/PlanQuestion.astro';
+import StepNav from './ui/StepNav.astro';
+---
+
+<plan-builder class="plan-builder container">
+  <StepNav />
+
+  <form class="plan-builder__form" data-plan-form novalidate>
+    {PLAN_STEPS.map((step, index) => (
+      <PlanQuestion step={step} open={index === 0} />
+    ))}
+    <OrderSummary />
+  </form>
+
+  <CheckoutDialog />
+</plan-builder>
+
+<script>
+  import './plan-builder';
+</script>
+
+<style lang="scss">
+  .plan-builder {
+    display: grid;
+    margin-block: var(--section-gap);
+
+    @include mq(lg) {
+      grid-template-columns: minmax(0, 15.9rem) minmax(0, 45.6rem);
+      justify-content: space-between;
+      align-items: start;
+      padding-inline: 5.3125rem 0;
+    }
+
+    @include mq(xl) {
+      padding-inline: 5.3125rem;
+    }
+  }
+</style>

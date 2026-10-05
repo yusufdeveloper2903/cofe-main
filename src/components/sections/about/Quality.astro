@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import quality from '@/assets/images/about/quality.jpg';
+---
+
+<section class="quality container" aria-labelledby="quality-title">
+  <div class="quality__panel">
+    <Image
+      class="quality__image"
+      src={quality}
+      alt="Freshly brewed cup of coffee next to a coffee bag"
+      width={445}
+      densities={[1, 2]}
+      data-reveal="fade-down"
+    />
+
+    <div class="quality__body" data-reveal="fade-up">
+      <h2 id="quality-title" class="quality__title">
+        Uncompromising quality
+      </h2>
+      <p class="quality__text">
+        Although we work with growers who pay close attention to all stages of harvest and
+        processing, we employ, on our end, a rigorous quality control program to avoid over-roasting
+        or baking the coffee dry. Every bag of coffee is tagged with a roast date and batch number.
+        Our goal is to roast consistent, user-friendly coffee, so that brewing is easy and
+        enjoyable.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .quality {
+    margin-top: calc(var(--section-gap) + 5rem);
+    margin-bottom: var(--section-gap);
+  }
+
+  .quality__panel {
+    display: grid;
+    gap: 3.5rem;
+    padding: 0 1.5rem 4rem;
+    color: var(--color-cream);
+    text-align: center;
+    background-color: var(--color-ink-deep);
+    border-radius: var(--radius-lg);
+
+    @include mq(md) {
+      gap: 3.5rem;
+      padding: 0 3.625rem 4rem;
+    }
+
+    @include mq(lg) {
+      grid-template-columns: minmax(0, 33.75rem) minmax(0, 27.8rem);
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5.3125rem;
+      text-align: left;
+    }
+  }
+
+  // Image sticks out of the top edge of the panel.
+  .quality__image {
+    width: 100%;
+    height: 9.75rem;
+    margin-top: -4.875rem;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+
+    @include mq(md) {
+      height: 20rem;
+      margin-top: -10rem;
+    }
+
+    @include mq(lg) {
+      order: 1;
+      height: 29.625rem;
+      margin-top: -5.5rem;
+      margin-bottom: 5.5rem;
+    }
+  }
+
+  .quality__title {
+    @include heading('h2');
+
+    margin-bottom: 2rem;
+  }
+
+  .quality__text {
+    max-width: 33.75rem;
+    margin-inline: auto;
+    font-size: var(--fs-lead);
+    opacity: 0.8;
+  }
+</style>

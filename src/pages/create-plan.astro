@@ -1,0 +1,30 @@
+---
+import heroDesktop from '@/assets/images/create-plan/hero-desktop.png';
+import heroMobile from '@/assets/images/create-plan/hero-mobile.png';
+import heroTablet from '@/assets/images/create-plan/hero-tablet.png';
+import Hero from '@/components/sections/Hero.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import PlanBuilder from '@/features/plan-builder/PlanBuilder.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Create your plan"
+  description="Build a subscription plan that best fits your needs — artisan coffees delivered fresh to your door."
+>
+  <Hero
+    title="Create a plan"
+    text="Build a subscription plan that best fits your needs. We offer an assortment of the best artisan coffees from around the globe delivered fresh to your door."
+    images={{ desktop: heroDesktop, tablet: heroTablet, mobile: heroMobile }}
+  />
+  <div class="steps">
+    <HowItWorks variant="dark" />
+  </div>
+  <PlanBuilder />
+</BaseLayout>
+
+<style>
+  .steps {
+    margin-top: var(--section-gap);
+  }
+</style>

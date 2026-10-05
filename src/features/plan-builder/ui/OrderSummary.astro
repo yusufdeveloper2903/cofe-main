@@ -1,0 +1,66 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { buildSummary, EMPTY_SELECTION } from '../model';
+import SummaryText from './SummaryText.astro';
+---
+
+<section class="order" aria-labelledby="order-title">
+  <div class="order__card">
+    <h2 id="order-title" class="order__eyebrow">
+      Order summary
+    </h2>
+    <SummaryText class="order__text" parts={buildSummary(EMPTY_SELECTION)} />
+  </div>
+
+  <Button type="submit" size="lg" data-submit disabled>
+    Create my plan!
+  </Button>
+</section>
+
+<style lang="scss">
+  .order {
+    display: grid;
+    gap: 2.5rem;
+    justify-items: center;
+    margin-top: 7.5rem;
+
+    @include mq(lg) {
+      justify-items: end;
+      margin-top: 5.5rem;
+    }
+  }
+
+  .order__card {
+    width: 100%;
+    padding: 2rem 1.5625rem;
+    color: var(--color-white);
+    background-color: var(--color-ink-deep);
+    border-radius: var(--radius-lg);
+
+    @include mq(md) {
+      padding: 1.6875rem 2.75rem;
+    }
+
+    @include mq(lg) {
+      padding: 1.6875rem 4rem;
+    }
+  }
+
+  .order__eyebrow {
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-body);
+    font-weight: 400;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .order__text {
+    @include heading('h4');
+
+    line-height: 1.667;
+
+    :global([data-filled='true']) {
+      color: var(--color-primary);
+    }
+  }
+</style>

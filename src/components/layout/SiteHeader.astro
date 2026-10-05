@@ -1,0 +1,183 @@
+---
+import CloseIcon from '@/assets/icons/close.svg';
+import MenuIcon from '@/assets/icons/menu.svg';
+import Logo from '@/components/ui/Logo.astro';
+import NavLinks from './NavLinks.astro';
+---
+
+<site-header class="site-header container">
+  <Logo />
+
+  <button
+    class="site-header__toggle"
+    type="button"
+    aria-controls="primary-nav"
+    aria-expanded="false"
+    data-nav-toggle
+  >
+    <span class="visually-hidden">Toggle navigation</span>
+    <MenuIcon class="site-header__icon site-header__icon--open" aria-hidden="true" />
+    <CloseIcon class="site-header__icon site-header__icon--close" aria-hidden="true" />
+  </button>
+
+  <nav id="primary-nav" class="site-nav" aria-label="Primary">
+    <NavLinks class="site-nav__list" linkClass="site-nav__link" />
+  </nav>
+</site-header>
+
+<script>
+  import { breakpointQuery } from '@/lib/breakpoints';
+
+  class SiteHeader extends HTMLElement {
+    #toggle: HTMLButtonElement | null = null;
+    #controller = new AbortController();
+
+    connectedCallback() {
+      this.#toggle = this.querySelector('[data-nav-toggle]');
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+      const desktop = window.matchMedia(breakpointQuery('sm'));
+
+      this.#toggle?.addEventListener('click', () => this.#setOpen(!this.#isOpen), { signal });
+      this.addEventListener(
+        'click',
+        (event) => {
+          if ((event.target as Element).closest('a')) this.#setOpen(false);
+        },
+        { signal },
+      );
+      document.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key === 'Escape' && this.#isOpen) {
+            this.#setOpen(false);
+            this.#toggle?.focus();
+          }
+        },
+        { signal },
+      );
+      desktop.addEventListener('change', () => this.#setOpen(false), { signal });
+    }
+
+    disconnectedCallback() {
+      this.#controller.abort();
+    }
+
+    get #isOpen() {
+      return this.hasAttribute('data-open');
+    }
+
+    #setOpen(open: boolean) {
+      this.toggleAttribute('data-open', open);
+      this.#toggle?.setAttribute('aria-expanded', String(open));
+      document.documentElement.classList.toggle('is-scroll-locked', open);
+    }
+  }
+
+  if (!customElements.get('site-header')) customElements.define('site-header', SiteHeader);
+</script>
+
+<style lang="scss">
+  .site-header {
+    position: relative;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+  }
+
+  .site-header__toggle {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.75rem;
+    color: var(--color-ink);
+
+    @include mq(sm) {
+      display: none;
+    }
+  }
+
+  .site-header__icon {
+    grid-area: 1 / 1;
+    width: 1rem;
+    height: auto;
+  }
+
+  .site-header__icon--close,
+  [data-open] .site-header__icon--open {
+    display: none;
+  }
+
+  [data-open] .site-header__icon--close {
+    display: block;
+  }
+
+  .site-nav :global(.site-nav__list) {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .site-nav :global(.site-nav__link) {
+    @include eyebrow;
+
+    color: var(--color-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &[aria-current='page'] {
+      color: var(--color-ink);
+    }
+  }
+
+  // Mobile: full-screen overlay menu (only when JS is available; without JS links stay inline).
+  @include mq-down(sm) {
+    :global(.js) .site-nav {
+      position: fixed;
+      inset: var(--header-height, 5.5rem) 0 0;
+      padding-top: 2.5rem;
+      visibility: hidden;
+      background:
+        linear-gradient(180deg, var(--color-cream) 0%, rgb(254 252 247 / 0%) 100%),
+        var(--color-cream);
+      opacity: 0;
+      transition:
+        opacity var(--duration-base) var(--ease-out),
+        visibility var(--duration-base);
+    }
+
+    :global(.js) [data-open] .site-nav {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    :global(.js) .site-nav :global(.site-nav__list) {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    :global(.js) .site-nav :global(.site-nav__link) {
+      @include heading('h4');
+
+      color: var(--color-ink);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    :global(:root:not(.js)) .site-header {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    :global(:root:not(.js)) .site-header__toggle {
+      display: none;
+    }
+  }
+
+  :global(.is-scroll-locked) {
+    overflow: hidden;
+  }
+</style>

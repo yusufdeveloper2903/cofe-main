@@ -1,0 +1,144 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { buildSummary, EMPTY_SELECTION } from '../model';
+import SummaryText from './SummaryText.astro';
+---
+
+<dialog class="checkout" aria-labelledby="checkout-title" data-checkout-dialog>
+  <header class="checkout__header">
+    <h2 id="checkout-title" class="checkout__title">
+      Order Summary
+    </h2>
+  </header>
+
+  <div class="checkout__body">
+    <SummaryText class="checkout__summary" parts={buildSummary(EMPTY_SELECTION)} />
+    <p class="checkout__note">
+      Is this correct? You can proceed to checkout or go back to plan selection if something is off.
+      Subscription discount codes can also be redeemed at the checkout.
+    </p>
+
+    <form method="dialog" class="checkout__actions">
+      <p class="checkout__price">
+        <span data-monthly-cost></span>/mo
+      </p>
+      <Button type="submit" size="lg" value="confirm">
+        Checkout
+        <span class="checkout__button-price">
+          {' '}
+          - <span data-monthly-cost></span>/mo
+        </span>
+      </Button>
+    </form>
+  </div>
+</dialog>
+
+<style lang="scss">
+  .checkout {
+    width: min(100% - 3rem, 33.75rem);
+    max-height: calc(100dvh - 3rem);
+    padding: 0;
+    margin: auto;
+    color: var(--color-ink);
+    background-color: var(--color-white);
+    border: 0;
+    border-radius: var(--radius-md);
+
+    &::backdrop {
+      background-color: var(--color-overlay);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      &[open] {
+        animation: dialog-in var(--duration-base) var(--ease-out);
+      }
+    }
+  }
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.98);
+    }
+  }
+
+  .checkout__header {
+    padding: 1.75rem 1.5rem;
+    color: var(--color-white);
+    background-color: var(--color-ink);
+
+    @include mq(md) {
+      padding: 3rem 3.5rem 2.5rem;
+    }
+  }
+
+  .checkout__title {
+    @include heading('h4');
+
+    @include mq(md) {
+      font-size: var(--fs-h2);
+      line-height: var(--lh-h2);
+    }
+  }
+
+  .checkout__body {
+    padding: 2.5rem 1.5rem 1.5rem;
+
+    @include mq(md) {
+      padding: 3.5rem 3.5rem;
+    }
+  }
+
+  .checkout__summary {
+    @include heading('h4');
+
+    margin-bottom: 0.5rem;
+    line-height: 1.667;
+    color: var(--color-muted);
+
+    :global([data-filled='true']) {
+      color: var(--color-primary);
+    }
+  }
+
+  .checkout__note {
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-lead);
+
+    @include mq(md) {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .checkout__actions {
+    display: flex;
+    gap: 0.8125rem;
+    align-items: center;
+    justify-content: space-between;
+
+    :global(.button) {
+      flex: 1;
+
+      @include mq(md) {
+        flex: 0 1 auto;
+      }
+    }
+  }
+
+  // Mobile shows the price inside the button; tablet+ shows it next to it.
+  .checkout__price {
+    @include heading('h3');
+
+    display: none;
+
+    @include mq(md) {
+      display: block;
+    }
+  }
+
+  .checkout__button-price {
+    @include mq(md) {
+      display: none;
+    }
+  }
+</style>

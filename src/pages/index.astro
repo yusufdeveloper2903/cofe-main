@@ -1,0 +1,30 @@
+---
+import heroDesktop from '@/assets/images/home/hero-desktop.jpg';
+import heroMobile from '@/assets/images/home/hero-mobile.png';
+import Hero from '@/components/sections/Hero.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Collection from '@/components/sections/home/Collection.astro';
+import WhyChooseUs from '@/components/sections/home/WhyChooseUs.astro';
+import { ROUTES, SITE } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <Hero
+    size="lg"
+    title="Great coffee made simple."
+    text={SITE.description}
+    images={{ desktop: heroDesktop, mobile: heroMobile }}
+    cta={{ label: 'Create your plan', href: ROUTES.createPlan }}
+  />
+  <Collection />
+  <WhyChooseUs />
+  <HowItWorks heading="How it works" showCta />
+  <div class="spacer" aria-hidden="true"></div>
+</BaseLayout>
+
+<style>
+  .spacer {
+    height: var(--section-gap);
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { SummaryPart } from '../model';
+
+interface Props extends HTMLAttributes<'p'> {
+  parts: SummaryPart[];
+}
+
+// `...rest` forwards the parent's scoped-style attribute so its styles apply here.
+const { parts, ...rest } = Astro.props;
+---
+
+<p {...rest} data-summary aria-live="polite">
+  {parts.map((part) =>
+    part.kind === 'text' ? (
+      part.text
+    ) : (
+      <span data-filled={String(part.text !== null)}>{part.text ?? '_____'}</span>
+    ),
+  )}
+</p>

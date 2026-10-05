@@ -1,0 +1,26 @@
+---
+import { NAV_LINKS } from '@/data/site';
+import { isCurrentPath } from '@/lib/routes';
+
+interface Props {
+  class?: string;
+  linkClass?: string;
+}
+
+const { class: className, linkClass } = Astro.props;
+const { pathname } = Astro.url;
+---
+
+<ul class={className} role="list">
+  {NAV_LINKS.map(({ label, href }) => (
+    <li>
+      <a
+        href={href}
+        class={linkClass}
+        aria-current={isCurrentPath(href, pathname) ? 'page' : undefined}
+      >
+        {label}
+      </a>
+    </li>
+  ))}
+</ul>

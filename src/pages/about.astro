@@ -1,0 +1,24 @@
+---
+import heroDesktop from '@/assets/images/about/hero-desktop.jpg';
+import heroMobile from '@/assets/images/about/hero-mobile.png';
+import heroTablet from '@/assets/images/about/hero-tablet.png';
+import Hero from '@/components/sections/Hero.astro';
+import Commitment from '@/components/sections/about/Commitment.astro';
+import Headquarters from '@/components/sections/about/Headquarters.astro';
+import Quality from '@/components/sections/about/Quality.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About us"
+  description="Coffeeroasters began its journey of exotic discovery in 1999, highlighting stories of coffee from around the world."
+>
+  <Hero
+    title="About Us"
+    text="Coffeeroasters began its journey of exotic discovery in 1999, highlighting stories of coffee from around the world. We have since been dedicated to bring the perfect cup - from bean to brew - in every shipment."
+    images={{ desktop: heroDesktop, tablet: heroTablet, mobile: heroMobile }}
+  />
+  <Commitment />
+  <Quality />
+  <Headquarters />
+</BaseLayout>

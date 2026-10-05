@@ -1,0 +1,32 @@
+@use 'sass:map';
+
+// Mobile-first breakpoints (min-width).
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+/// Applies styles from the given breakpoint upwards.
+/// @example scss  @include mq(md) { ... }
+@mixin mq($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}';
+  }
+
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+/// Applies styles below the given breakpoint. Prefer `mq` — use this only for mobile-only tweaks.
+@mixin mq-down($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}';
+  }
+
+  @media (max-width: (map.get($breakpoints, $name) - 0.02px)) {
+    @content;
+  }
+}

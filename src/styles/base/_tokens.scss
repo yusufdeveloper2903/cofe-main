@@ -1,0 +1,48 @@
+:root {
+  // Palette
+  --color-primary: #0e8784;
+  --color-primary-hover: #66d2cf;
+  --color-disabled: #e2dedb;
+  --color-ink: #333d4b;
+  --color-ink-deep: #2c343e;
+  --color-muted: #83888f;
+  --color-accent: #fdd6ba;
+  --color-cream: #fefcf7;
+  --color-sand: #f4f1eb;
+  --color-white: #fff;
+  --color-overlay: rgb(0 0 0 / 50%);
+
+  // Typography
+  --font-display: var(--font-fraunces), serif;
+  --font-body: var(--font-barlow), sans-serif;
+
+  --fs-xs: 0.75rem;
+  --fs-body: 1rem;
+  --fs-lead: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --fs-btn: 1.125rem;
+  --fs-h4: 1.5rem;
+  --fs-h3: clamp(1.5rem, 1.25rem + 0.9vw, 2rem);
+  --fs-h2: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --fs-h1: clamp(2.5rem, 2.1rem + 1.4vw, 3rem);
+  --fs-numeral: 4.5rem;
+  --fs-watermark: clamp(2.5rem, 0.5rem + 10vw, 9.375rem);
+
+  --lh-body: 1.625;
+  --lh-h4: 1.333;
+  --lh-h3: 1.125;
+  --lh-h2: 1.2;
+  --lh-h1: 1;
+
+  // Layout
+  --container-max: 1280px;
+  --container-gutter: clamp(1.5rem, 4vw, 5rem);
+  --section-gap: clamp(7.5rem, 5rem + 8vw, 10.5rem);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+
+  // Motion
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+}

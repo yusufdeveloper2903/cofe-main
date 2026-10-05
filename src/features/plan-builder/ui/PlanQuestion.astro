@@ -1,0 +1,172 @@
+---
+import Chevron from '@/assets/icons/chevron.svg';
+import { getDeliveryDescription, type Delivery, type PlanStep } from '../model';
+
+interface Props {
+  step: PlanStep;
+  open?: boolean;
+}
+
+const { step, open = false } = Astro.props;
+const legendId = `step-${step.id}-legend`;
+
+const describe = (value: string, fallback: string) =>
+  step.id === 'delivery' ? getDeliveryDescription(value as Delivery, null) : fallback;
+---
+
+<details class="question" id={`step-${step.id}`} data-step={step.id} open={open}>
+  <summary class="question__summary">
+    <h2 class="question__title" id={legendId}>
+      {step.question}
+    </h2>
+    <Chevron class="question__chevron" aria-hidden="true" />
+  </summary>
+
+  <fieldset class="question__options" aria-labelledby={legendId}>
+    {step.options.map((option) => (
+      <label class="option">
+        <input class="option__input" type="radio" name={step.id} value={option.value} required />
+        <span class="option__label">{option.label}</span>
+        <span class="option__text" data-option-description={option.value}>
+          {describe(option.value, option.description)}
+        </span>
+      </label>
+    ))}
+  </fieldset>
+</details>
+
+<style lang="scss">
+  .question {
+    scroll-margin-top: 2rem;
+
+    & + & {
+      margin-top: 6rem;
+
+      @include mq(md) {
+        margin-top: 6.25rem;
+      }
+
+      @include mq(lg) {
+        margin-top: 5.5rem;
+      }
+    }
+
+    &[data-disabled] {
+      opacity: 0.4;
+    }
+  }
+
+  .question__summary {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-muted);
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      color: var(--color-ink);
+    }
+
+    [data-disabled] & {
+      cursor: not-allowed;
+      color: var(--color-muted);
+    }
+  }
+
+  .question__title {
+    @include heading('h4');
+
+    @include mq(md) {
+      font-size: var(--fs-h2);
+      line-height: var(--lh-h2);
+    }
+  }
+
+  .question__chevron {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: auto;
+    color: var(--color-primary);
+    transform: rotate(180deg);
+    transition: transform var(--duration-base) var(--ease-out);
+
+    [open] & {
+      transform: none;
+    }
+  }
+
+  .question__options {
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+    padding: 0;
+    margin-top: 2rem;
+    border: 0;
+
+    @include mq(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.625rem;
+      margin-top: 2.5rem;
+    }
+
+    @include mq(lg) {
+      gap: 1.4375rem;
+      margin-top: 3.5rem;
+    }
+  }
+
+  // Radio card
+  .option {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    padding: 1.5rem 1.5625rem;
+    cursor: pointer;
+    background-color: var(--color-sand);
+    border-radius: var(--radius-md);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+
+    @include mq(md) {
+      gap: 1.5rem;
+      padding: 2rem 1.5625rem 5.25rem;
+    }
+
+    &:hover {
+      background-color: var(--color-accent);
+    }
+
+    &:has(:checked) {
+      color: var(--color-cream);
+      background-color: var(--color-primary);
+    }
+
+    &:has(:focus-visible) {
+      @include focus-ring;
+    }
+
+    &:has(:disabled) {
+      cursor: not-allowed;
+      background-color: var(--color-sand);
+    }
+  }
+
+  .option__input {
+    @include visually-hidden;
+  }
+
+  .option__label {
+    @include heading('h4');
+  }
+
+  .option__text {
+    font-size: var(--fs-lead);
+  }
+</style>

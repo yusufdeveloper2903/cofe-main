@@ -1,0 +1,6 @@
+// Global stylesheet — imported once by BaseLayout.
+// Component styles live next to their components in scoped <style lang="scss"> blocks.
+@use 'base/tokens';
+@use 'base/reset';
+@use 'base/base';
+@use 'base/reveal';

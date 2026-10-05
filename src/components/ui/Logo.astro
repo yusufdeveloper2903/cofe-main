@@ -1,0 +1,33 @@
+---
+import LogoDark from '@/assets/icons/logo.svg';
+import LogoLight from '@/assets/icons/logo-light.svg';
+import { ROUTES, SITE } from '@/data/site';
+
+interface Props {
+  variant?: 'dark' | 'light';
+  class?: string;
+}
+
+const { variant = 'dark', class: className } = Astro.props;
+const Svg = variant === 'light' ? LogoLight : LogoDark;
+---
+
+<a href={ROUTES.home} class:list={['logo', className]} aria-label={`${SITE.name} — home`}>
+  <Svg class="logo__svg" aria-hidden="true" />
+</a>
+
+<style lang="scss">
+  .logo {
+    display: inline-block;
+    transition: opacity var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  .logo__svg {
+    width: clamp(10.25rem, 8rem + 8vw, 14.75rem);
+    height: auto;
+  }
+</style>

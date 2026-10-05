@@ -1,0 +1,40 @@
+---
+import { SOCIAL_LINKS } from '@/data/site';
+---
+
+<ul class="social" role="list">
+  {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+    <li>
+      <a class="social__link" href={href} target="_blank" rel="noopener noreferrer">
+        <Icon class="social__icon" aria-hidden="true" />
+        <span class="visually-hidden">{label}</span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style lang="scss">
+  .social {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .social__link {
+    display: block;
+    color: var(--color-cream);
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      color: var(--color-accent);
+      transform: translateY(-3px);
+    }
+  }
+
+  .social__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>

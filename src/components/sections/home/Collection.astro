@@ -1,0 +1,120 @@
+---
+import { Image } from 'astro:assets';
+import { COLLECTION } from '@/data/home';
+---
+
+<section class="collection container" aria-labelledby="collection-title">
+  <h2 id="collection-title" class="collection__watermark" data-reveal="zoom">
+    our collection
+  </h2>
+
+  <ul class="collection__list" role="list">
+    {COLLECTION.map((coffee, index) => (
+      <li class="coffee" data-reveal="fade-up" data-reveal-delay={index * 120}>
+        <Image
+          class="coffee__image"
+          src={coffee.image}
+          alt={`${coffee.name} coffee bag`}
+          width={Math.round(coffee.image.width / 2)}
+          densities={[1, 2]}
+        />
+        <div class="coffee__body">
+          <h3 class="coffee__name">{coffee.name}</h3>
+          <p class="coffee__text">{coffee.description}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style lang="scss">
+  .collection {
+    position: relative;
+    margin-top: var(--section-gap);
+  }
+
+  .collection__watermark {
+    @include font-display;
+
+    position: relative;
+    font-size: var(--fs-watermark);
+    line-height: 1;
+    text-align: center;
+    // Fade the oversized title into the background, as in the design.
+    color: transparent;
+    background: linear-gradient(180deg, var(--color-muted) 0%, rgb(254 252 247 / 0%) 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    user-select: none;
+  }
+
+  .collection__list {
+    position: relative;
+    display: grid;
+    gap: 3rem;
+    margin-top: -1.5rem;
+
+    @include mq(md) {
+      gap: 2rem;
+      margin-top: -1rem;
+    }
+
+    @include mq(lg) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.875rem;
+      margin-top: -4.5rem;
+    }
+  }
+
+  .coffee {
+    display: grid;
+    gap: 2.25rem;
+    justify-items: center;
+    text-align: center;
+
+    @include mq(md) {
+      grid-template-columns: auto 1fr;
+      gap: 2.25rem;
+      align-items: center;
+      max-width: 36rem;
+      margin-inline: auto;
+      text-align: left;
+    }
+
+    @include mq(lg) {
+      grid-template-columns: none;
+      gap: 4.5rem;
+      align-items: start;
+      text-align: center;
+    }
+  }
+
+  .coffee__image {
+    width: min(100%, 12.5rem);
+    height: auto;
+
+    @include mq(lg) {
+      width: 100%;
+      max-width: 16rem;
+    }
+  }
+
+  .coffee__name {
+    @include heading('h4');
+
+    margin-bottom: 1rem;
+
+    @include mq(lg) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .coffee__text {
+    max-width: 18rem;
+    font-size: var(--fs-lead);
+
+    @include mq(md) {
+      max-width: none;
+    }
+  }
+</style>

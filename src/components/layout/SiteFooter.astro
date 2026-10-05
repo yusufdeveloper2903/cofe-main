@@ -1,0 +1,63 @@
+---
+import Logo from '@/components/ui/Logo.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
+import NavLinks from './NavLinks.astro';
+---
+
+<footer class="site-footer container">
+  <Logo variant="light" />
+
+  <nav aria-label="Footer">
+    <NavLinks class="site-footer__nav" linkClass="site-footer__link" />
+  </nav>
+
+  <SocialLinks />
+</footer>
+
+<style lang="scss">
+  .site-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+    padding: 3.375rem 1.5rem;
+    margin-bottom: clamp(1.5rem, 4vw, 5.5rem);
+    background-color: var(--color-ink-deep);
+    border-radius: var(--radius-md);
+
+    @include mq(lg) {
+      flex-direction: row;
+      gap: 6.25rem;
+      padding: 3rem 5.25rem;
+      border-radius: 0;
+
+      > :global(:last-child) {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .site-footer :global(.site-footer__nav) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+
+    @include mq(sm) {
+      flex-direction: row;
+      gap: 2.0625rem;
+    }
+  }
+
+  .site-footer :global(.site-footer__link) {
+    @include eyebrow;
+
+    color: var(--color-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &[aria-current='page'] {
+      color: var(--color-cream);
+    }
+  }
+</style>

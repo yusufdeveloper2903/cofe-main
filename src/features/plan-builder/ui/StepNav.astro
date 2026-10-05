@@ -1,0 +1,66 @@
+---
+import { PLAN_STEPS } from '../model';
+---
+
+<nav class="step-nav" aria-label="Plan steps">
+  <ol class="step-nav__list" role="list">
+    {PLAN_STEPS.map((step, index) => (
+      <li class="step-nav__item">
+        <a
+          class="step-nav__link"
+          href={`#step-${step.id}`}
+          data-step-link={step.id}
+          aria-current={index === 0 ? 'step' : undefined}
+        >
+          <span class="step-nav__number">{String(index + 1).padStart(2, '0')}</span>
+          {step.navLabel}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style lang="scss">
+  .step-nav {
+    position: sticky;
+    top: 2rem;
+    display: none;
+
+    @include mq(lg) {
+      display: block;
+    }
+  }
+
+  .step-nav__item + .step-nav__item {
+    border-top: 1px solid rgb(131 136 143 / 25%);
+  }
+
+  .step-nav__link {
+    @include heading('h4');
+
+    display: flex;
+    gap: 1.75rem;
+    padding-block: 1.5rem;
+    opacity: 0.4;
+    transition: opacity var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &[aria-current='step'],
+    &[data-complete] {
+      opacity: 1;
+    }
+
+    &[data-complete] .step-nav__number {
+      color: var(--color-primary);
+    }
+
+    &[aria-disabled='true'] {
+      pointer-events: none;
+      opacity: 0.2;
+    }
+  }
+
+  .step-nav__number {
+    color: var(--color-muted);
+  }
+</style>

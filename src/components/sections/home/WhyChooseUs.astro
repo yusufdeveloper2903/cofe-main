@@ -1,0 +1,142 @@
+---
+import { BENEFITS } from '@/data/home';
+---
+
+<section class="why container" aria-labelledby="why-title">
+  <div class="why__panel">
+    <div class="why__intro" data-reveal="fade-up">
+      <h2 id="why-title" class="why__title">
+        Why choose us?
+      </h2>
+      <p class="why__text">
+        A large part of our role is choosing which particular coffees will be featured in our range.
+        This means working closely with the best coffee growers to give you a more impactful
+        experience on every level.
+      </p>
+    </div>
+
+    <ul class="why__list" role="list">
+      {BENEFITS.map(({ title, description, icon: Icon }, index) => (
+        <li class="benefit" data-reveal="fade-up" data-reveal-delay={index * 150}>
+          <Icon class="benefit__icon" aria-hidden="true" />
+          <div>
+            <h3 class="benefit__title">{title}</h3>
+            <p class="benefit__text">{description}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+  // The benefit cards overlap the bottom edge of the dark panel.
+  .why {
+    --overlap: 10rem;
+
+    margin-top: var(--section-gap);
+    margin-bottom: calc(var(--overlap) + var(--section-gap));
+
+    @include mq(md) {
+      --overlap: 15rem;
+    }
+
+    @include mq(lg) {
+      --overlap: 9rem;
+    }
+  }
+
+  .why__panel {
+    padding: 4rem 1.5rem 0;
+    color: var(--color-cream);
+    background-color: var(--color-ink-deep);
+    border-radius: var(--radius-lg);
+
+    @include mq(md) {
+      padding: 3.5rem 3.625rem 0;
+    }
+
+    @include mq(lg) {
+      padding: 6.25rem 5.3125rem 0;
+    }
+  }
+
+  .why__intro {
+    max-width: 33.75rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .why__title {
+    @include heading('h2');
+
+    margin-bottom: 1.5rem;
+
+    @include mq(lg) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .why__text {
+    font-size: var(--fs-lead);
+    opacity: 0.8;
+  }
+
+  .why__list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    margin-bottom: calc(-1 * var(--overlap));
+
+    @include mq(lg) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.875rem;
+      margin-top: 5.375rem;
+    }
+  }
+
+  .benefit {
+    display: grid;
+    gap: 3.5rem;
+    justify-items: center;
+    padding: 4.5rem 1.5rem 3rem;
+    text-align: center;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-md);
+
+    @include mq(md) {
+      grid-template-columns: auto 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      padding: 2.5rem 4.375rem;
+      text-align: left;
+    }
+
+    @include mq(lg) {
+      grid-template-columns: none;
+      gap: 3.5rem;
+      align-items: start;
+      padding: 4.5rem 3rem 3rem;
+      text-align: center;
+    }
+  }
+
+  .benefit__icon {
+    height: 4.5rem;
+    width: auto;
+  }
+
+  .benefit__title {
+    @include heading('h4');
+
+    margin-bottom: 1.5rem;
+
+    @include mq(md) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .benefit__text {
+    font-size: var(--fs-lead);
+  }
+</style>

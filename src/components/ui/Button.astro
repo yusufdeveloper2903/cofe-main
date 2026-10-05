@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = (
+  | ({ href: string } & Omit<HTMLAttributes<'a'>, 'href'>)
+  | ({ href?: never } & HTMLAttributes<'button'>)
+) & {
+  size?: 'md' | 'lg';
+};
+
+const { href, size = 'md', type = 'button', class: className, ...rest } = Astro.props;
+const classes = ['button', `button--${size}`, className];
+---
+
+{href ? (
+  <a href={href} class:list={classes} {...(rest as HTMLAttributes<'a'>)}>
+    <slot />
+  </a>
+) : (
+  <button
+    class:list={classes}
+    type={type as HTMLAttributes<'button'>['type']}
+    {...(rest as HTMLAttributes<'button'>)}
+  >
+    <slot />
+  </button>
+)}
+
+<style lang="scss">
+  .button {
+    @include font-display;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5ch;
+    padding: 0.9375rem 1.9375rem;
+    font-size: var(--fs-btn);
+    line-height: 1.39;
+    color: var(--color-cream);
+    text-align: center;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--duration-base) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+      background-color: var(--color-disabled);
+    }
+  }
+
+  .button--lg {
+    min-width: 13.75rem;
+  }
+</style>
